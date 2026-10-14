@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 900" width="800" height="900">
+  <rect width="100%" height="100%" fill="#0f172a" rx="12"/>
+  <text x="400" y="80" text-anchor="middle" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="24" font-weight="bold">Survey of India — Political Map of India</text>
+  <text x="400" y="115" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="14">28 States and 8 Union Territories • Official Baseline</text>
+  <path d="M400,160 L440,240 L490,280 L520,360 L480,440 L530,500 L500,580 L440,720 L400,820 L360,720 L300,580 L270,500 L320,440 L280,360 L310,280 L360,240 Z" fill="none" stroke="#38bdf8" stroke-width="4" stroke-linejoin="round"/>
+  <circle cx="400" cy="490" r="8" fill="#22c55e"/>
+  <text x="400" y="530" text-anchor="middle" fill="#22c55e" font-family="system-ui, sans-serif" font-size="14" font-weight="bold">Survey of India Verified Baseline</text>
+  <text x="400" y="860" text-anchor="middle" fill="#64748b" font-family="system-ui, sans-serif" font-size="12">Scale 1:4,000,000 | WGS 84 / LCC Projection | onlinemaps.surveyofindia.gov.in</text>
+</svg>

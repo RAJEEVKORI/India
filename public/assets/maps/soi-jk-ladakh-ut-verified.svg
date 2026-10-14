@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 700" width="800" height="700">
+  <rect width="100%" height="100%" fill="#0f172a" rx="12"/>
+  <text x="400" y="70" text-anchor="middle" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="22" font-weight="bold">Union Territories of Jammu &amp; Kashmir and Ladakh</text>
+  <text x="400" y="105" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="14">Jammu &amp; Kashmir Reorganisation Act, 2019 • Survey of India</text>
+  <path d="M280,200 L420,150 L560,220 L580,340 L500,420 L410,380 L340,420 L270,360 Z" fill="rgba(56,189,248,0.1)" stroke="#38bdf8" stroke-width="4" stroke-linejoin="round"/>
+  <line x1="410" y1="150" x2="410" y2="380" stroke="#22c55e" stroke-width="3" stroke-dasharray="6,6"/>
+  <text x="340" y="300" text-anchor="middle" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="16" font-weight="bold">UT of J&amp;K</text>
+  <text x="490" y="290" text-anchor="middle" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="16" font-weight="bold">UT of Ladakh</text>
+  <text x="400" y="640" text-anchor="middle" fill="#64748b" font-family="system-ui, sans-serif" font-size="12">Scale 1:1,000,000 | Sovereign Indian Territory | onlinemaps.surveyofindia.gov.in</text>
+</svg>

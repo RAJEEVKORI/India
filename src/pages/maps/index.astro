@@ -1,0 +1,97 @@
+---
+import { getCollection } from 'astro:content';
+
+const maps = (await getCollection('maps')).sort((a, b) => a.slug.localeCompare(b.slug));
+const siteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, '') : 'https://your-username.github.io';
+
+const schemaMarkup = {
+  "@context": "https://schema.org",
+  "@type": "DataCatalog",
+  "name": "Verified Survey of India Map Download Hub",
+  "description": "Legally compliant SVG, 4K PNG, and transparent WebP maps of India based on Survey of India cartographic baselines.",
+  "url": `${siteUrl}/maps/`,
+  "dataset": maps.map((map) => ({
+    "@type": "Dataset",
+    "name": map.data.title,
+    "identifier": map.data.mapCode,
+    "description": `Official ${map.data.scale} scale map of India (${map.data.projection}). Verified against ${map.data.authority}.`,
+    "license": map.data.authorityUrl,
+    "keywords": map.data.seoKeywords,
+    "isBasedOn": map.data.authorityUrl,
+    "distribution": [
+      { "@type": "DataDownload", "encodingFormat": "image/svg+xml", "contentUrl": `${siteUrl}${map.data.files.svg}` },
+      { "@type": "DataDownload", "encodingFormat": "image/png", "contentUrl": `${siteUrl}${map.data.files.png4k}` },
+      { "@type": "DataDownload", "encodingFormat": "image/webp", "contentUrl": `${siteUrl}${map.data.files.webpTransparent}` }
+    ]
+  }))
+};
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Official Map of India Download Hub (SVG, 4K PNG, WebP) | Survey of India Baseline</title>
+  <meta name="description" content="Download verified, legally compliant maps of India (28 States, 8 UTs, 15,106.7 km land border) in SVG, 4K PNG, and transparent WebP formats." />
+  <script type="application/ld+json" set:html={JSON.stringify(schemaMarkup)} />
+  <style>
+    :root { --bg: #0f172a; --card-bg: #1e293b; --border: #334155; --text-main: #f8fafc; --text-muted: #94a3b8; --accent: #38bdf8; --verified: #22c55e; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text-main); line-height: 1.6; padding: 2rem 1rem; }
+    .container { max-width: 1120px; margin: 0 auto; }
+    .back-link { display: inline-block; color: var(--accent); text-decoration: none; margin-bottom: 1.5rem; font-weight: 600; }
+    header { border-bottom: 1px solid var(--border); padding-bottom: 2rem; margin-bottom: 2.5rem; }
+    .badge { display: inline-block; background: rgba(34, 197, 94, 0.15); color: var(--verified); border: 1px solid var(--verified); font-size: 0.8rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 999px; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .map-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.75rem; margin-bottom: 2rem; }
+    .meta-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+    .meta-table td { padding: 0.45rem 0; border-bottom: 1px solid var(--border); }
+    .meta-table td:first-child { color: var(--text-muted); width: 180px; }
+    .download-group { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.25rem; }
+    .btn { display: inline-block; padding: 0.6rem 1.1rem; border-radius: 0.375rem; font-weight: 600; font-size: 0.9rem; text-decoration: none; border: 1px solid var(--border); color: var(--text-main); }
+    .btn-primary { background: var(--accent); color: #0f172a; border-color: var(--accent); }
+    .embed-box { margin-top: 1.25rem; background: #090d16; padding: 0.75rem; border-radius: 0.375rem; border: 1px solid var(--border); font-family: monospace; font-size: 0.8rem; color: var(--text-muted); overflow-x: auto; }
+    ul { padding-left: 1.25rem; margin-top: 0.75rem; }
+    li { margin-bottom: 0.4rem; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back-link">← Back to Master Repository Hub</a>
+    <header>
+      <span class="badge">Survey of India Baseline Compliant</span>
+      <h1>Official Map of India — Creator & Media Download Hub</h1>
+      <p style="color: var(--text-muted); max-width: 850px;">Verified vector and raster maps of the Republic of India depicting the complete 15,106.7 km international land boundary and 7,516.6 km coastline across all 28 States and 8 Union Territories.</p>
+    </header>
+
+    <main>
+      {await Promise.all(maps.map(async (map) => {
+        const { Content } = await map.render();
+        const embedString = `<img src="${siteUrl}${map.data.files.webpTransparent}" alt="${map.data.title} - Survey of India Baseline" />`;
+        return (
+          <article class="map-card" id={map.data.mapCode}>
+            <h2>{map.data.title}</h2>
+            <table class="meta-table">
+              <tr><td><strong>Reference Code:</strong></td><td><code>{map.data.mapCode}</code></td></tr>
+              <tr><td><strong>Official Scale:</strong></td><td>{map.data.scale} ({map.data.projection})</td></tr>
+              <tr><td><strong>Baseline Authority:</strong></td><td><a href={map.data.authorityUrl} target="_blank" rel="noopener">{map.data.authority}</a></td></tr>
+              <tr><td><strong>Aspect Ratios:</strong></td><td>{map.data.aspectRatios.join(' • ')}</td></tr>
+              <tr><td><strong>SHA-256 Checksum:</strong></td><td><code>{map.data.sha256}</code></td></tr>
+            </table>
+            <Content/>
+            <div class="download-group">
+              <a href={map.data.files.svg} download class="btn btn-primary">Download Vector (.SVG)</a>
+              <a href={map.data.files.png4k} download class="btn">Download 4K (.PNG)</a>
+              <a href={map.data.files.webpTransparent} download class="btn">Transparent (.WebP)</a>
+            </div>
+            <div class="embed-box">
+              <strong>HTML Embed & Attribution:</strong><br/>{embedString}
+            </div>
+          </article>
+        );
+      }))}
+    </main>
+  </div>
+</body>
+</html>

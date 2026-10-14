@@ -1,0 +1,111 @@
+---
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const dataEntries = await getCollection('data');
+  return dataEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+const siteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, '') : 'https://your-username.github.io';
+const pageUrl = `${siteUrl}/data/${entry.slug}/`;
+
+const schemaMarkup = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": pageUrl,
+      "url": pageUrl,
+      "name": entry.data.title,
+      "datePublished": entry.data.lastUpdated.toISOString(),
+      "dateModified": entry.data.lastUpdated.toISOString()
+    },
+    {
+      "@type": "Dataset",
+      "@id": `${pageUrl}#dataset`,
+      "name": entry.data.title,
+      "description": `Verified statistics, global rankings, and statutory facts for ${entry.data.category} in India, sourced from ${entry.data.officialAuthority}.`,
+      "url": pageUrl,
+      "isBasedOn": entry.data.sourceUrl,
+      "creator": {
+        "@type": "Organization",
+        "name": entry.data.officialAuthority,
+        "url": entry.data.sourceUrl
+      },
+      "spatialCoverage": { "@type": "Place", "name": "Republic of India" },
+      "temporalCoverage": "2025/2026"
+    }
+  ]
+};
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{entry.data.title} | India Verified Facts Repository</title>
+  <meta name="description" content={`Verified statistics and global rankings for ${entry.data.category} in India. Sourced from ${entry.data.officialAuthority}.`} />
+  <script type="application/ld+json" set:html={JSON.stringify(schemaMarkup)} />
+  <style>
+    :root {
+      --bg: #0f172a; --card-bg: #1e293b; --border: #334155;
+      --text-main: #f8fafc; --text-muted: #94a3b8; --accent: #38bdf8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text-main); line-height: 1.7; padding: 2rem 1rem; }
+    .container { max-width: 1020px; margin: 0 auto; }
+    .back-link { display: inline-block; color: var(--accent); text-decoration: none; margin-bottom: 1.5rem; font-weight: 600; }
+    header { background: var(--card-bg); border: 1px solid var(--border); border-radius: 0.75rem; padding: 2rem; margin-bottom: 2rem; }
+    .badge { display: inline-block; background: rgba(56, 189, 248, 0.1); color: var(--accent); border: 1px solid var(--accent); font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 999px; text-transform: uppercase; margin-bottom: 0.75rem; }
+    h1 { font-size: 2rem; margin-bottom: 1rem; }
+    .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.9rem; color: var(--text-muted); }
+    .meta-grid a { color: var(--accent); text-decoration: none; }
+    article { background: var(--card-bg); border: 1px solid var(--border); border-radius: 0.75rem; padding: 2.25rem; }
+    article h2 { font-size: 1.45rem; color: var(--text-main); margin: 2rem 0 1rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
+    article h2:first-of-type { margin-top: 0; }
+    article h3 { font-size: 1.15rem; color: var(--accent); margin: 1.5rem 0 0.75rem; }
+    article ul { margin-bottom: 1.25rem; padding-left: 1.4rem; }
+    article li { margin-bottom: 0.65rem; color: #e2e8f0; }
+    article a { color: var(--accent); text-decoration: underline; font-weight: 500; }
+    .table-container { width: 100%; overflow-x: auto; margin: 1.25rem 0 1.75rem; border: 1px solid var(--border); border-radius: 0.5rem; }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
+    th, td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); }
+    th { background: #090f1f; color: var(--text-main); font-weight: 700; }
+    tr:hover td { background: rgba(255, 255, 255, 0.02); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back-link">← Back to Master Repository Hub</a>
+    <header>
+      <span class="badge">{entry.data.category}</span>
+      <h1>{entry.data.title}</h1>
+      <div class="meta-grid">
+        <div><strong>Official Authority:</strong><br/>{entry.data.officialAuthority}</div>
+        <div><strong>Primary Verification Portal:</strong><br/><a href={entry.data.sourceUrl} target="_blank" rel="noopener">{entry.data.sourceUrl}</a></div>
+        <div><strong>Last Verified:</strong><br/>{entry.data.lastUpdated.toISOString().split('T')[0]}</div>
+      </div>
+    </header>
+    <article>
+      <Content/>
+    </article>
+  </div>
+  <script>
+    document.querySelectorAll('article table').forEach((table) => {
+      if (!table.parentElement?.classList.contains('table-container')) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'table-container';
+        table.parentNode?.insertBefore(wrapper, table);
+        wrapper.appendChild(table);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+---
+import { getCollection } from 'astro:content';
+
+const dataEntries = (await getCollection('data')).sort((a, b) => a.slug.localeCompare(b.slug));
+const siteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, '') : 'https://your-username.github.io';
+
+const schemaMarkup = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "India Verified Facts, Global Rankings & Official Cartography Repository",
+  "url": `${siteUrl}/`,
+  "description": "Government-backed repository of verified statistics, global rankings, and official Survey of India cartography.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "India Verified Facts & Cartography Repository",
+    "url": `${siteUrl}/`
+  }
+};
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>India Verified Facts, Global Rankings & Official Cartography Repository</title>
+  <meta name="description" content="Official, primary-sourced repository of verified facts, government statistics, global rankings, and Survey of India compliant maps." />
+  <script type="application/ld+json" set:html={JSON.stringify(schemaMarkup)} />
+  <style>
+    :root {
+      --bg: #0f172a; --card-bg: #1e293b; --border: #334155;
+      --text-main: #f8fafc; --text-muted: #94a3b8;
+      --accent: #38bdf8; --accent-hover: #0ea5e9; --verified-green: #22c55e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text-main); line-height: 1.6; padding: 2.5rem 1rem; }
+    .container { max-width: 1120px; margin: 0 auto; }
+    header { text-align: center; margin-bottom: 2.5rem; border-bottom: 1px solid var(--border); padding-bottom: 2rem; }
+    .badge { display: inline-block; background: rgba(34, 197, 94, 0.15); color: var(--verified-green); border: 1px solid var(--verified-green); font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.85rem; border-radius: 999px; text-transform: uppercase; margin-bottom: 1rem; }
+    h1 { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .subtitle { color: var(--text-muted); font-size: 1.1rem; max-width: 850px; margin: 0 auto; }
+    .map-banner { background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), var(--card-bg)); border: 1px solid var(--accent); border-radius: 0.75rem; padding: 2rem; margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+    .btn { background: var(--accent); color: #0f172a; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 700; text-decoration: none; }
+    .btn:hover { background: var(--accent-hover); }
+    .search-box { width: 100%; padding: 0.9rem 1.2rem; margin-bottom: 2rem; border-radius: 0.5rem; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); font-size: 1rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.75rem; text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.15s, border-color 0.15s; }
+    .card:hover { transform: translateY(-3px); border-color: var(--accent); }
+    .card-cat { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; display: block; }
+    .card h3 { font-size: 1.2rem; margin-bottom: 0.75rem; }
+    .card-footer { margin-top: 1.25rem; padding-top: 0.75rem; border-top: 1px solid var(--border); font-size: 0.85rem; color: var(--text-muted); display: flex; justify-content: space-between; }
+    footer { text-align: center; border-top: 1px solid var(--border); padding-top: 2rem; color: var(--text-muted); font-size: 0.9rem; }
+    footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <span class="badge">Verified Government Baseline & Global Statistics</span>
+      <h1>India Verified Facts & Cartography Repository</h1>
+      <p class="subtitle">Primary-sourced repository of verified statistics, global rankings (Top 3, India, Bottom 3), statutory records, and Survey of India compliant cartography.</p>
+    </header>
+
+    <div class="map-banner">
+      <div>
+        <h2>Survey of India Verified Map Download Hub</h2>
+        <p style="color: var(--text-muted); max-width: 650px;">Download legally compliant SVG, 4K PNG, and transparent WebP maps of India (28 States, 8 UTs, 15,106.7 km land border) for video production, journalism, and research.</p>
+      </div>
+      <a href="/maps/" class="btn">Open Map Hub →</a>
+    </div>
+
+    <input type="search" id="categorySearch" class="search-box" placeholder="Filter categories (e.g., CO2, Coal, Diaspora, Nobel, Defence, STEM, Tigers, Space)..." />
+
+    <main class="grid" id="cardsGrid">
+      {dataEntries.map((entry) => (
+        <a href={`/data/${entry.slug}/`} class="card" data-search={`${entry.data.title} ${entry.data.category} ${entry.data.officialAuthority}`.toLowerCase()}>
+          <div>
+            <span class="card-cat">{entry.data.category}</span>
+            <h3>{entry.data.title}</h3>
+          </div>
+          <div class="card-footer">
+            <span>Authority: {entry.data.officialAuthority}</span>
+            <span style="color: var(--accent); font-weight:600;">Explore →</span>
+          </div>
+        </a>
+      ))}
+    </main>
+
+    <footer>
+      <p>All metrics are verified against primary Government of India portals (<a href="https://onlinemaps.surveyofindia.gov.in/">Survey of India</a>, <a href="https://legislative.gov.in/">Ministry of Law & Justice</a>, <a href="https://www.indiabudget.gov.in/">Ministry of Finance</a>, <a href="https://mnre.gov.in/">MNRE</a>, <a href="https://www.mea.gov.in/">MEA</a>) and international registries (WTO, IMF, IEA, SIPRI, UN, Nobel Foundation).</p>
+    </footer>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('categorySearch');
+    const cards = document.querySelectorAll('#cardsGrid .card');
+    searchInput?.addEventListener('input', (e) => {
+      const q = (e.target as HTMLInputElement).value.toLowerCase();
+      cards.forEach((card) => {
+        const text = card.getAttribute('data-search') || '';
+        (card as HTMLElement).style.display = text.includes(q) ? 'flex' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>
