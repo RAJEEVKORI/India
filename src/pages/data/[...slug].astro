@@ -12,8 +12,9 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await entry.render();
 
-const siteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, '') : 'https://your-username.github.io';
-const pageUrl = `${siteUrl}/data/${entry.slug}/`;
+const siteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, '') : 'https://rajeevkori.github.io';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const pageUrl = `${siteUrl}${base}/data/${entry.slug}/`;
 
 const schemaMarkup = {
   "@context": "https://schema.org",
@@ -83,7 +84,7 @@ const schemaMarkup = {
 </head>
 <body>
   <div class="container">
-    <a href="/" class="back-link">← Back to Master Repository Hub</a>
+    <a href={`${base || '/'}`} class="back-link">← Back to Master Repository Hub</a>
     <header>
       <span class="badge">{entry.data.category}</span>
       <h1>{entry.data.title}</h1>

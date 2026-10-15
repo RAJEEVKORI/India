@@ -2,7 +2,8 @@
 import { getCollection } from 'astro:content';
 
 const dataEntries = (await getCollection('data')).sort((a, b) => a.slug.localeCompare(b.slug));
-const siteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, '') : 'https://your-username.github.io';
+const siteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, '') : 'https://rajeevkori.github.io';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const schemaMarkup = {
   "@context": "https://schema.org",
@@ -66,14 +67,14 @@ const schemaMarkup = {
         <h2>Survey of India Verified Map Download Hub</h2>
         <p style="color: var(--text-muted); max-width: 650px;">Download legally compliant SVG, 4K PNG, and transparent WebP maps of India (28 States, 8 UTs, 15,106.7 km land border) for video production, journalism, and research.</p>
       </div>
-      <a href="/maps/" class="btn">Open Map Hub →</a>
+      <a href={`${base}/maps/`} class="btn">Open Map Hub →</a>
     </div>
 
     <input type="search" id="categorySearch" class="search-box" placeholder="Filter categories (e.g., CO2, Coal, Diaspora, Nobel, Defence, STEM, Tigers, Space)..." />
 
     <main class="grid" id="cardsGrid">
       {dataEntries.map((entry) => (
-        <a href={`/data/${entry.slug}/`} class="card" data-search={`${entry.data.title} ${entry.data.category} ${entry.data.officialAuthority}`.toLowerCase()}>
+        <a href={`${base}/data/${entry.slug}/`} class="card" data-search={`${entry.data.title} ${entry.data.category} ${entry.data.officialAuthority}`.toLowerCase()}>
           <div>
             <span class="card-cat">{entry.data.category}</span>
             <h3>{entry.data.title}</h3>

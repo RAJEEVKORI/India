@@ -2,14 +2,15 @@
 import { getCollection } from 'astro:content';
 
 const maps = (await getCollection('maps')).sort((a, b) => a.slug.localeCompare(b.slug));
-const siteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, '') : 'https://your-username.github.io';
+const siteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, '') : 'https://rajeevkori.github.io';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const schemaMarkup = {
   "@context": "https://schema.org",
   "@type": "DataCatalog",
   "name": "Verified Survey of India Map Download Hub",
   "description": "Legally compliant SVG, 4K PNG, and transparent WebP maps of India based on Survey of India cartographic baselines.",
-  "url": `${siteUrl}/maps/`,
+  "url": `${siteUrl}${base}/maps/`,
   "dataset": maps.map((map) => ({
     "@type": "Dataset",
     "name": map.data.title,
@@ -19,9 +20,9 @@ const schemaMarkup = {
     "keywords": map.data.seoKeywords,
     "isBasedOn": map.data.authorityUrl,
     "distribution": [
-      { "@type": "DataDownload", "encodingFormat": "image/svg+xml", "contentUrl": `${siteUrl}${map.data.files.svg}` },
-      { "@type": "DataDownload", "encodingFormat": "image/png", "contentUrl": `${siteUrl}${map.data.files.png4k}` },
-      { "@type": "DataDownload", "encodingFormat": "image/webp", "contentUrl": `${siteUrl}${map.data.files.webpTransparent}` }
+      { "@type": "DataDownload", "encodingFormat": "image/svg+xml", "contentUrl": `${siteUrl}${base}${map.data.files.svg}` },
+      { "@type": "DataDownload", "encodingFormat": "image/png", "contentUrl": `${siteUrl}${base}${map.data.files.png4k}` },
+      { "@type": "DataDownload", "encodingFormat": "image/webp", "contentUrl": `${siteUrl}${base}${map.data.files.webpTransparent}` }
     ]
   }))
 };
@@ -58,7 +59,7 @@ const schemaMarkup = {
 </head>
 <body>
   <div class="container">
-    <a href="/" class="back-link">← Back to Master Repository Hub</a>
+    <a href={`${base || '/'}`} class="back-link">← Back to Master Repository Hub</a>
     <header>
       <span class="badge">Survey of India Baseline Compliant</span>
       <h1>Official Map of India — Creator & Media Download Hub</h1>
@@ -68,7 +69,7 @@ const schemaMarkup = {
     <main>
       {await Promise.all(maps.map(async (map) => {
         const { Content } = await map.render();
-        const embedString = `<img src="${siteUrl}${map.data.files.webpTransparent}" alt="${map.data.title} - Survey of India Baseline" />`;
+        const embedString = `<img src="${siteUrl}${base}${map.data.files.webpTransparent}" alt="${map.data.title} - Survey of India Baseline" />`;
         return (
           <article class="map-card" id={map.data.mapCode}>
             <h2>{map.data.title}</h2>
@@ -81,9 +82,9 @@ const schemaMarkup = {
             </table>
             <Content/>
             <div class="download-group">
-              <a href={map.data.files.svg} download class="btn btn-primary">Download Vector (.SVG)</a>
-              <a href={map.data.files.png4k} download class="btn">Download 4K (.PNG)</a>
-              <a href={map.data.files.webpTransparent} download class="btn">Transparent (.WebP)</a>
+              <a href={`${base}${map.data.files.svg}`} download class="btn btn-primary">Download Vector (.SVG)</a>
+              <a href={`${base}${map.data.files.png4k}`} download class="btn">Download 4K (.PNG)</a>
+              <a href={`${base}${map.data.files.webpTransparent}`} download class="btn">Transparent (.WebP)</a>
             </div>
             <div class="embed-box">
               <strong>HTML Embed & Attribution:</strong><br/>{embedString}
