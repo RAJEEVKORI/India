@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import '../../styles/tiranga-theme.css';
 
 export async function getStaticPaths() {
   const dataEntries = await getCollection('data');
@@ -55,56 +56,92 @@ const schemaMarkup = {
   <meta name="description" content={`Verified statistics and global rankings for ${entry.data.category} in India. Sourced from ${entry.data.officialAuthority}.`} />
   <script type="application/ld+json" set:html={JSON.stringify(schemaMarkup)} />
   <style>
-    :root {
-      --bg: #0f172a; --card-bg: #1e293b; --border: #334155;
-      --text-main: #f8fafc; --text-muted: #94a3b8; --accent: #38bdf8;
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-subtle);
+      font-size: 0.92rem;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text-main); line-height: 1.7; padding: 2rem 1rem; }
-    .container { max-width: 1020px; margin: 0 auto; }
-    .back-link { display: inline-block; color: var(--accent); text-decoration: none; margin-bottom: 1.5rem; font-weight: 600; }
-    header { background: var(--card-bg); border: 1px solid var(--border); border-radius: 0.75rem; padding: 2rem; margin-bottom: 2rem; }
-    .badge { display: inline-block; background: rgba(56, 189, 248, 0.1); color: var(--accent); border: 1px solid var(--accent); font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 999px; text-transform: uppercase; margin-bottom: 0.75rem; }
-    h1 { font-size: 2rem; margin-bottom: 1rem; }
-    .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.9rem; color: var(--text-muted); }
-    .meta-grid a { color: var(--accent); text-decoration: none; }
-    article { background: var(--card-bg); border: 1px solid var(--border); border-radius: 0.75rem; padding: 2.25rem; }
-    article h2 { font-size: 1.45rem; color: var(--text-main); margin: 2rem 0 1rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
-    article h2:first-of-type { margin-top: 0; }
-    article h3 { font-size: 1.15rem; color: var(--accent); margin: 1.5rem 0 0.75rem; }
-    article ul { margin-bottom: 1.25rem; padding-left: 1.4rem; }
-    article li { margin-bottom: 0.65rem; color: #e2e8f0; }
-    article a { color: var(--accent); text-decoration: underline; font-weight: 500; }
-    .table-container { width: 100%; overflow-x: auto; margin: 1.25rem 0 1.75rem; border: 1px solid var(--border); border-radius: 0.5rem; }
-    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
-    th, td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); }
-    th { background: #090f1f; color: var(--text-main); font-weight: 700; }
-    tr:hover td { background: rgba(255, 255, 255, 0.02); }
+    .meta-box {
+      background: var(--bg-canvas);
+      border: 1px solid var(--border-subtle);
+      padding: 0.85rem 1.1rem;
+      border-radius: var(--radius-md);
+    }
+    .meta-box strong {
+      display: block;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-muted);
+      margin-bottom: 0.2rem;
+    }
+    .meta-box a {
+      color: var(--chakra-blue);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .meta-box code {
+      font-family: var(--font-mono);
+      color: var(--green-accent);
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="container animate-fade-up">
     <a href={`${base || '/'}`} class="back-link">← Back to Master Repository Hub</a>
-    <header>
-      <span class="badge">{entry.data.category}</span>
+    
+    <header class="hero-header">
+      <span class="badge-saffron">{entry.data.category}</span>
       <h1>{entry.data.title}</h1>
       <div class="meta-grid">
-        <div><strong>Official Authority:</strong><br/>{entry.data.officialAuthority}</div>
-        <div><strong>Primary Verification Portal:</strong><br/><a href={entry.data.sourceUrl} target="_blank" rel="noopener">{entry.data.sourceUrl}</a></div>
-        <div><strong>Last Verified:</strong><br/>{entry.data.lastUpdated.toISOString().split('T')[0]}</div>
+        <div class="meta-box">
+          <strong>Primary Authority</strong>
+          <span>{entry.data.officialAuthority}</span>
+        </div>
+        <div class="meta-box">
+          <strong>Official Verification Portal</strong>
+          <a href={entry.data.sourceUrl} target="_blank" rel="noopener">{entry.data.sourceUrl} ↗</a>
+        </div>
+        <div class="meta-box">
+          <strong>Last Verified Baseline</strong>
+          <code>{entry.data.lastUpdated.toISOString().split('T')[0]}</code>
+        </div>
       </div>
     </header>
+
     <article>
       <Content/>
     </article>
   </div>
+
   <script>
+    // 1. Wrap all Markdown tables in responsive modern card containers
     document.querySelectorAll('article table').forEach((table) => {
       if (!table.parentElement?.classList.contains('table-container')) {
         const wrapper = document.createElement('div');
         wrapper.className = 'table-container';
         table.parentNode?.insertBefore(wrapper, table);
         wrapper.appendChild(table);
+      }
+    });
+
+    // 2. Automatically highlight rows representing India's Position or Rank
+    document.querySelectorAll('article tbody tr').forEach((row) => {
+      const text = row.textContent || '';
+      if (
+        text.includes("India's Position") ||
+        text.includes("(India)") ||
+        text.includes("Rank — India") ||
+        text.includes("Indian Citizen") ||
+        text.includes("Indian-Born") ||
+        (text.includes("India") && (text.includes("#") || text.includes("Rank")))
+      ) {
+        row.classList.add('india-highlight-row');
       }
     });
   </script>

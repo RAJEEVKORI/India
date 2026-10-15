@@ -1,0 +1,356 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Predominantly White Surfaces */
+  --bg-canvas: #FCFDFD;
+  --bg-card: #FFFFFF;
+  --bg-glass: rgba(255, 255, 255, 0.88);
+
+  /* Faintest Indian Flag Pastels */
+  --saffron-faint: #FFF7ED;
+  --saffron-border: #FFEDD5;
+  --saffron-accent: #EA580C;
+  --saffron-flag: #FF671F;
+
+  --green-faint: #F0FDF4;
+  --green-border: #BBF7D0;
+  --green-accent: #046A38;
+
+  --chakra-faint: #EFF4FF;
+  --chakra-border: #DBE6FE;
+  --chakra-blue: #06038D;
+  --chakra-mid: #1E40AF;
+
+  /* Ink & Borders */
+  --ink-primary: #0F172A;
+  --ink-body: #334155;
+  --ink-muted: #64748B;
+  --border-subtle: #E2E8F0;
+
+  /* Font Families */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Elevations & Radii */
+  --shadow-calm: 0 4px 20px -2px rgba(6, 3, 141, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+  --shadow-hover: 0 14px 30px -4px rgba(6, 3, 141, 0.08), 0 4px 12px -2px rgba(255, 103, 31, 0.06);
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-pill: 9999px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-canvas);
+  background-image: 
+    radial-gradient(at 0% 0%, var(--saffron-faint) 0px, transparent 48%),
+    radial-gradient(at 50% 35%, var(--chakra-faint) 0px, transparent 45%),
+    radial-gradient(at 100% 100%, var(--green-faint) 0px, transparent 48%);
+  background-attachment: fixed;
+  color: var(--ink-body);
+  line-height: 1.75;
+  padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 3vw, 2.5rem);
+  min-height: 100vh;
+}
+
+/* Subtle Top Tiranga Ribbon */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--saffron-flag) 0%, #FFFFFF 50%, var(--green-accent) 100%);
+  z-index: 1000;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* Calm Keyframe Animations */
+@keyframes fadeUpCalm {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spinChakra {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-fade-up {
+  animation: fadeUpCalm 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Typography Hierarchy */
+h1, h2 {
+  font-family: var(--font-display);
+  color: var(--ink-primary);
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: clamp(2.15rem, 4vw, 3.1rem);
+  line-height: 1.18;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: clamp(1.45rem, 2.4vw, 1.9rem);
+  line-height: 1.3;
+  margin-top: 3rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 2px solid var(--chakra-border);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+h3 {
+  font-family: var(--font-sans);
+  font-size: 1.22rem;
+  font-weight: 700;
+  color: var(--chakra-blue);
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Badges & Pills */
+.badge-tiranga {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--green-faint);
+  color: var(--green-accent);
+  border: 1px solid var(--green-border);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.38rem 1rem;
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 1.25rem;
+}
+
+.badge-saffron {
+  display: inline-block;
+  background: var(--saffron-faint);
+  color: var(--saffron-accent);
+  border: 1px solid var(--saffron-border);
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  font-weight: 600;
+  padding: 0.28rem 0.85rem;
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+/* Navigation & Back Links */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--bg-card);
+  color: var(--chakra-blue);
+  border: 1px solid var(--chakra-border);
+  padding: 0.55rem 1.15rem;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-calm);
+  transition: all 0.25s ease;
+}
+
+.back-link:hover {
+  background: var(--chakra-faint);
+  transform: translateX(-4px);
+}
+
+/* Hero & Page Headers */
+.hero-header {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: clamp(2rem, 4vw, 3.25rem);
+  margin-bottom: 2.75rem;
+  box-shadow: var(--shadow-calm);
+}
+
+.chakra-watermark {
+  position: absolute;
+  right: -45px;
+  top: -45px;
+  width: 240px;
+  height: 240px;
+  opacity: 0.055;
+  pointer-events: none;
+  animation: spinChakra 75s linear infinite;
+}
+
+/* Single-Line Fact Cards (Inside Markdown Articles) */
+article {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.75rem, 4vw, 3.25rem);
+  box-shadow: var(--shadow-calm);
+}
+
+article ul {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin: 1.5rem 0 2.5rem;
+}
+
+article ul li {
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-subtle);
+  border-left: 4px solid var(--chakra-blue);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.35rem;
+  font-size: 1.03rem;
+  color: var(--ink-primary);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-left-color 0.22s ease, background-color 0.22s ease;
+}
+
+article ul li:hover {
+  transform: translateX(5px);
+  background: var(--bg-card);
+  border-left-color: var(--saffron-flag);
+  box-shadow: var(--shadow-calm);
+}
+
+/* Verified Inline Source Link Pills */
+article a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: var(--chakra-faint);
+  color: var(--chakra-blue);
+  border: 1px solid var(--chakra-border);
+  padding: 0.12rem 0.65rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 0.25rem;
+  transition: all 0.2s ease;
+}
+
+article a::after {
+  content: "↗";
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+article a:hover {
+  background: var(--chakra-blue);
+  color: #FFFFFF;
+  border-color: var(--chakra-blue);
+  transform: translateY(-1px);
+}
+
+/* Modern Floating Data Tables */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin: 1.75rem 0 2.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--chakra-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-calm);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.94rem;
+}
+
+th {
+  background: linear-gradient(180deg, var(--chakra-faint) 0%, #E6EEFF 100%);
+  color: var(--chakra-blue);
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 1rem 1.25rem;
+  border-bottom: 2px solid var(--chakra-border);
+  white-space: nowrap;
+}
+
+td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--ink-body);
+  font-variant-numeric: tabular-nums;
+  transition: background-color 0.18s ease;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #FAFBFD;
+}
+
+tbody tr:hover td {
+  background-color: var(--saffron-faint);
+}
+
+/* Automatic Highlight for India's Ranking Row */
+tr.india-highlight-row td {
+  background: linear-gradient(90deg, var(--saffron-faint) 0%, #FFFFFF 50%, var(--green-faint) 100%) !important;
+  color: var(--ink-primary);
+  font-weight: 600;
+  border-top: 1px solid var(--green-border);
+  border-bottom: 1px solid var(--green-border);
+}
+
+tr.india-highlight-row td:first-child {
+  border-left: 4px solid var(--green-accent);
+  color: var(--green-accent);
+  font-family: var(--font-mono);
+}
+
+/* Monospace Rank Column */
+td:first-child {
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  white-space: nowrap;
+}
