@@ -1,8 +1,8 @@
 ---
-title: "Official Physical, Relief & Exclusive Economic Zone (EEZ) Map of India"
-mapCode: "SOI-PHY-2026-V1"
+title: "Official Physical Relief & Elevation Map of India (2nd Edition)"
+mapCode: "SOI-PHY-4M-V2"
 scale: "1:4,000,000"
-projection: "WGS 84 / LCC (Survey of India Standard)"
+projection: "Lambert Conical Conic (Survey of India Standard)"
 lastVerified: 2026-10-15
 authority: "Survey of India & Ministry of Earth Sciences"
 authorityUrl: "https://onlinemaps.surveyofindia.gov.in/"
@@ -12,7 +12,8 @@ files:
   svg: "/assets/maps/soi-india-physical-eez.svg"
   png4k: "/assets/maps/soi-india-physical-eez-4k.png"
   webpTransparent: "/assets/maps/soi-india-physical-eez.webp"
-sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  pdf: "/assets/maps/pdf/soi-india-physical-4m-official.pdf"
+sha256: "e97e8b1d529a652293be06b6ea1f542fdd218e86f09fb14cbaea8e7e97e68ce7"
 seoKeywords: ["India Physical Map Relief", "India EEZ Maritime Boundary Map", "Survey of India Topographic Map", "Himalayas Deccan Ghats Map"]
 ---
 

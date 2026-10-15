@@ -1,8 +1,8 @@
 ---
-title: "Official International Border & Coastline Outline Map of India"
-mapCode: "SOI-OUT-2026-V1"
-scale: "1:4,000,000"
-projection: "WGS 84 / LCC (Survey of India Standard)"
+title: "Official International Border & Coastline Outline Map of India (1:16M)"
+mapCode: "SOI-OUT-16M-V1"
+scale: "1:16,000,000"
+projection: "Geographic / WGS 84 (Survey of India Standard)"
 lastVerified: 2026-10-15
 authority: "Survey of India (Department of Science & Technology, Govt. of India)"
 authorityUrl: "https://onlinemaps.surveyofindia.gov.in/"
@@ -12,7 +12,8 @@ files:
   svg: "/assets/maps/soi-india-outline-transparent.svg"
   png4k: "/assets/maps/soi-india-outline-transparent-16x9.png"
   webpTransparent: "/assets/maps/soi-india-outline-transparent-16x9.webp"
-sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  pdf: "/assets/maps/pdf/soi-india-outline-16m-official.pdf"
+sha256: "96d6d08c5c2a68d1d0a0f08096609039467a84d76dd87856e19c2ea776b5fdd3"
 seoKeywords: ["India Outline Map Transparent", "India Border Map SVG", "Survey of India Land Boundary Map", "India Coastline Vector Map"]
 ---
 

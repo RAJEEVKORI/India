@@ -1,8 +1,8 @@
 ---
 title: "Official Cartographic Baseline: Union Territories of Jammu & Kashmir and Ladakh"
 mapCode: "SOI-JKL-2026-V1"
-scale: "1:1,000,000"
-projection: "WGS 84 / LCC (Survey of India Standard)"
+scale: "1:2,500,000"
+projection: "Lambert Conical Orthomorphic (Survey of India Standard)"
 lastVerified: 2026-10-15
 authority: "Survey of India (Department of Science & Technology, Govt. of India)"
 authorityUrl: "https://onlinemaps.surveyofindia.gov.in/"
@@ -12,7 +12,8 @@ files:
   svg: "/assets/maps/soi-jk-ladakh-ut-verified.svg"
   png4k: "/assets/maps/soi-jk-ladakh-ut-verified-4k.png"
   webpTransparent: "/assets/maps/soi-jk-ladakh-ut-verified.webp"
-sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  pdf: "/assets/maps/pdf/soi-india-adjacent-2-5m-official.pdf"
+sha256: "a554a4fc3f4cd6c1ae3fd1ee1c193ade10c055c850746c273726dfb89f9ad6ef"
 seoKeywords: ["Jammu Kashmir Ladakh UT Official Map", "Survey of India Ladakh Map", "Gilgit Baltistan Aksai Chin Sovereign Map", "India Code J&K Reorganisation"]
 ---
 

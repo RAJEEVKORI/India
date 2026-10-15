@@ -27,6 +27,7 @@ const mapsCollection = defineCollection({
       svg: z.string(),
       png4k: z.string(),
       webpTransparent: z.string(),
+      pdf: z.string().optional(),
       creatorZip: z.string().optional(),
     }),
     sha256: z.string(),
